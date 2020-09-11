@@ -1,10 +1,11 @@
 from flask import Blueprint, flash, jsonify, request, redirect, url_for, send_from_directory
 from flask import current_app as app
+from flask_cors import cross_origin
 from werkzeug.utils import secure_filename
 import os
 
 UPLOAD_FOLDER = './audiofiles'
-ALLOWED_EXTENSIONS = {'mp3', 'wav'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'pdf'}
 main = Blueprint('main', __name__)
 
 def allowed_file(filename):
@@ -13,17 +14,20 @@ def allowed_file(filename):
 
 @main.route('/test', methods=['POST'])
 def add_test():
-    return 'Done', 201 
+    return "AHAHAHA SUCCESS BAYBEEEEEE", 201 
 
 @main.route('/upload-file', methods=['POST'])
+@cross_origin()
 def upload_file():
+    name=""
     basedir = os.path.abspath(os.path.dirname(__file__))
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
-            return redirect(request.url)
+            return "MonkaS"
         file = request.files['file']
+        name=file.filename
         # if user does not select file, browser also
         # submit an empty part without filename
         if file.filename == '':
@@ -32,8 +36,9 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(basedir, app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
+            #return redirect(url_for('uploaded_file',
+            #                        filename=filename))
+            return name, 201
     return '''
     <!doctype html>
     <title>Upload new File</title>

@@ -1,3 +1,14 @@
+body {
+  background: rgb(0,99,255);
+  background: linear-gradient(36deg, rgba(0,99,255,1) 0%, rgba(182,221,220,1) 100%);
+  background-repeat: no-repeat;
+  height: auto;
+}
+
+html {
+  height: 100%;
+}
+
 .App {
   text-align: center;
 }
